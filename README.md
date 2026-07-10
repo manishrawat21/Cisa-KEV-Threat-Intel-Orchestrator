@@ -20,6 +20,8 @@ Every Monday at 8:00 AM, the pipeline:
 3. **Logs every processed CVE to a Google Sheet** a running, timestamped audit trail of when a vulnerability was disclosed vs. when a detection rule existed for it. Built with SOC 2 / ISO 27001 proactive-vulnerability-management evidence requirements in mind, not just as a log.
 4. **Emails an analyst-ready weekly briefing** with the CVE list, severity, and draft detection logic.
 
+ ***Check out my full blog: [Advanced Threat Intel: From 6 Hours to 0 Minutes per CVE](https://osintteam.blog/advanced-threat-intel-from-6-hours-to-0-minutes-per-cve-1ee3d55d5485?sharedUserId=manishrawat21)***
+ 
 ## Architecture
 
 ```
@@ -51,6 +53,9 @@ This is a working weekly pipeline, not a finished product. Currently on the road
 - Auto-deploying generated rules directly to the security team's SIEM instead of email-only delivery
 - Automated testing of generated rules against sample logs before they reach an analyst
 - Direct integration with the incident response system
+
+
+
 
 ## Repo contents
 
