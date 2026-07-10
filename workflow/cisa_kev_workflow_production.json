@@ -1,0 +1,356 @@
+{
+  "name": "Weekly Threat Intel - CISA KEV Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "dayOfWeek",
+              "operator": "equals",
+              "value": 1
+            },
+            {
+              "field": "hours",
+              "operator": "equals",
+              "value": 8
+            },
+            {
+              "field": "minutes",
+              "operator": "equals",
+              "value": 0
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Weekly Schedule (Monday 8 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [50, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "method": "GET"
+      },
+      "id": "2",
+      "name": "Fetch CISA KEV",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const today = new Date();\nconst sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);\nconst vulns = $input.first().json.vulnerabilities || [];\nconst filtered = vulns.filter(v => new Date(v.dateAdded) >= sevenDaysAgo);\nreturn filtered.map(item => ({ json: item }));"
+      },
+      "id": "3",
+      "name": "Parse & Filter Last 7 Days",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300]
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "outputKey": "PROCESS_ALL",
+              "renameOutput": true,
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "true"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        }
+      },
+      "id": "4",
+      "name": "Route to Branch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "builtInTools": {},
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert SOC detection engineer. Generate a production-grade Sigma detection rule for this SPECIFIC weaponized CVE.\n\n=== CRITICAL CVE DETAILS ===\nCVE ID: {{ $json.cveID }}\nVendor/Project: {{ $json.vendorProject }}\nProduct Name: {{ $json.productName }}\nVulnerability Name: {{ $json.vulnerabilityName }}\nDate Added to KEV: {{ $json.dateAdded }}\nCVSS Score: {{ $json.cvssScore }}\nShort Description: {{ $json.shortDescription }}\n\n=== SIGMA RULE REQUIREMENTS ===\n1. MUST include this specific CVE ID in the rule title\n2. MUST target the EXACT product name and vendor mentioned above\n3. Use appropriate Sysmon EventIDs (1=Process Creation, 3=Network, 7=Image Load, 10=LSASS, 13=Registry)\n4. Include 3-5 condition filters to minimize false positives\n5. Add MITRE ATT&CK technique mapping relevant to this CVE\n6. Output ONLY valid YAML (no markdown, no explanations)\n7. Rule must be production-ready for Splunk/Elastic/Wazuh\n\n=== OUTPUT FORMAT ===\nReturn ONLY the Sigma YAML rule starting with title: and ending with tags.\nDo not include any text before or after the YAML block.",
+              "role": "user"
+            }
+          ]
+        },
+        "resource": "text",
+        "operation": "message",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3.5-flash"
+        },
+        "options": {
+          "maxTokens": 2000,
+          "temperature": 0.1
+        }
+      },
+      "id": "5",
+      "name": "Message a model",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cve_name",
+              "name": "CVE Name",
+              "value": "={{ $json.cveID }}",
+              "type": "string"
+            },
+            {
+              "id": "released_date",
+              "name": "Released Date",
+              "value": "={{ $json.dateAdded }}",
+              "type": "string"
+            },
+            {
+              "id": "severity",
+              "name": "Severity",
+              "value": "={{ $json.cvssScore >= 9.0 ? 'Critical' : $json.cvssScore >= 7.0 ? 'High' : 'Medium' }}",
+              "type": "string"
+            },
+            {
+              "id": "possible_attacks",
+              "name": "Possible Attacks",
+              "value": "={{ $json.vulnerabilityName }} - {{ $json.vendorProject }} | {{ $json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "sigma_rule",
+              "name": "Sigma Rule",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "6",
+      "name": "Format for Google Sheets",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1300, 200]
+    },
+    {
+      "parameters": {
+        "mode": "merge",
+        "includeOtherFields": true
+      },
+      "id": "7",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [1050, 350]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "spreadsheetId": "={{ $env.GOOGLE_SHEETS_ID }}",
+        "sheetName": "CISA KEV Weekly",
+        "columns": "CVE Name,Released Date,Severity,Possible Attacks,Sigma Rule"
+      },
+      "id": "8",
+      "name": "Append to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1550, 200]
+    },
+    {
+      "parameters": {
+        "operation": "csv",
+        "fileFormat": "csv"
+      },
+      "id": "9",
+      "name": "Convert to CSV for Email",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [1550, 350]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.EMAIL_FROM }}",
+        "toEmail": "={{ $env.EMAIL_TO }}",
+        "subject": "Weekly Threat Intel Report - {{ now.format('YYYY-MM-DD') }}",
+        "emailType": "text",
+        "textContent": "=WEEKLY THREAT INTELLIGENCE REPORT\n\nPeriod: Last 7 Days\nGenerated: {{ now.format('YYYY-MM-DD HH:mm:ss') }}\n\nSUMMARY:\n- Total CVEs Processed: {{ $input.all().length }}\n- All CISA Weaponized Vulnerabilities have been analyzed\n- Sigma detection rules generated for each CVE\n- Google Sheets spreadsheet updated automatically\n\nKEY METRICS:\n✓ CSV data attached\n✓ Google Sheets updated\n✓ Detection rules ready for deployment\n✓ MITRE ATT&CK mapped\n\nACTIONS TAKEN:\n1. Fetched latest CISA KEV catalog\n2. Filtered CVEs from last 7 days\n3. Generated production-grade Sigma rules via Gemini AI\n4. Saved to Google Sheets for permanent tracking\n5. Created CSV export for your records\n\nSPREADSHEET COLUMNS:\n- CVE Name: Official CVE identifier\n- Released Date: When CISA added to KEV list\n- Severity: Risk level (Critical/High/Medium)\n- Possible Attacks: Attack description and affected components\n- Sigma Rule: Detection rule in YAML format (ready for SIEM)\n\nNEXT STEPS:\n1. Review attached CSV file\n2. Check Google Sheets for complete history\n3. Import Sigma rules into your SIEM (Splunk/Elastic/Wazuh)\n4. Deploy detection rules to production\n5. Update threat hunting playbooks\n\nFor questions, check the Google Sheets comments section."
+      },
+      "id": "10",
+      "name": "Send a message",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1800, 200]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "method": "POST",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ {text: '🚨 Weekly Threat Intel Complete: ' + $input.all().length + ' new CISA KEVs processed and analyzed. Check email and Google Sheets for full details.'} }}"
+      },
+      "id": "11",
+      "name": "Notify Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1800, 350]
+    }
+  ],
+  "connections": {
+    "1": {
+      "main": [
+        [
+          {
+            "node": "2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2": {
+      "main": [
+        [
+          {
+            "node": "3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3": {
+      "main": [
+        [
+          {
+            "node": "4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4": {
+      "main": [
+        [
+          {
+            "node": "5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5": {
+      "main": [
+        [
+          {
+            "node": "6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6": {
+      "main": [
+        [
+          {
+            "node": "8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7": {
+      "main": [
+        [
+          {
+            "node": "9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8": {
+      "main": [
+        [
+          {
+            "node": "10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "9": {
+      "main": [
+        [
+          {
+            "node": "10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10": {
+      "main": [
+        [
+          {
+            "node": "11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [],
+  "meta": {
+    "instanceId": "local",
+    "description": "Automated CISA KEV threat intelligence pipeline with AI-generated Sigma detection rules"
+  }
+}
