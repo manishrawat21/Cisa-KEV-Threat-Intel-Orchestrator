@@ -40,7 +40,8 @@ CISA KEV Catalog (API)
         │
         └──▶ Email digest (analyst briefing)
 ```
-
+## Automation Impact Report
+![Impact](sample-output/Impact.webp)
 
 ## Stack
 
@@ -68,5 +69,5 @@ README.md
 
 ## Author
 
-Manish Rawat | Detection Engineer & SOC Analyst (Independent Research)
+Manish Rawat | Detection Engineer & SOC Analyst (Independent Research) | Open to Opportunities |
 [LinkedIn](https://linkedin.com/in/manishrawat21) · [GitHub](https://github.com/manishrawat21) · [Medium](https://medium.com/@manishrawat21)
