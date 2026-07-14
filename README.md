@@ -69,5 +69,5 @@ README.md
 
 ## Author
 
-Manish Rawat | Detection Engineer & SOC Analyst (Independent Research) | Open to Opportunities |
+Manish Rawat | Detection Engineer & SOC Analyst (Independent Research) | Open to Work |
 [LinkedIn](https://linkedin.com/in/manishrawat21) · [GitHub](https://github.com/manishrawat21) · [Medium](https://medium.com/@manishrawat21)
