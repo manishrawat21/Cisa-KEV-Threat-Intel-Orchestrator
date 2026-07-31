@@ -1,6 +1,8 @@
 # CISA KEV Threat Intel Orchestrator   
 [![Featured in Detection Engineering Weekly](https://img.shields.io/badge/Featured%20In-Detection%20Engineering%20Weekly-24292F?style=for-the-badge&logo=readthedocs&logoColor=white)](https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai)
 
+[![Featured in Tl;dr sec](https://img.shields.io/badge/Featured%20In-tl;dr%20sec-24292F?style=for-the-badge&logo=readthedocs&logoColor=white)](https://tldrsec.com/p/tldr-sec-339)
+
 Zero-touch pipeline that turns newly weaponized CVEs from the CISA Known Exploited Vulnerabilities (KEV) catalog into production-ready Sigma detection rules, automatically, every week.
 
 ## The problem
@@ -76,6 +78,14 @@ I'm honored that this project was featured in **Detection Engineering Weekly**, 
 
 📖 **Read the feature:**
 https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai
+
+>**Tl;dr sec #339**
+
+Excited to see my CISA KEV Threat Intel Orchestrator featured in this week's TLDRSec newsletter.
+
+📖 **Read the feature:**
+https://tldrsec.com/p/tldr-sec-339
+
 
 ## Author
 
