@@ -7,7 +7,7 @@
 | Publication | Description |
 |-------------|-------------|
 | 📰 **[TL;DRSec](https://tldrsec.com/p/tldr-sec-339)** | Featured in the Blue Team section for automating CISA KEV intelligence into Sigma detection rules. |
-| 🛡️ **[Detection Engineering Weekly](https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai)** | Featured as an innovative detection engineering workflow for automated Sigma rule generation. |
+| 📰 **[Detection Engineering Weekly](https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai)** | Featured as an innovative detection engineering workflow for automated Sigma rule generation. |
 
 
 
@@ -80,18 +80,6 @@ This is a working weekly pipeline, not a finished product. Currently on the road
 /sample-output       One real weekly briefing (sanitized)
 README.md
 ```
-
-
-
-## 🚀 Community Recognition
-
-- ⭐ Featured by **TLDRSec**
-- 🛡️ Featured by **Detection Engineering Weekly**
-- 📖 Published detailed technical write-ups on **Medium** and **Substack**
-- 🔄 Used by detection engineers to explore automated Sigma rule generation workflows
-- 🌍 Repository visitors from GitHub, Google Search, Microsoft Teams, Substack, and leading cybersecurity newsletters
-
-
 
 
 
