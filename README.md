@@ -1,7 +1,15 @@
-# CISA KEV Threat Intel Orchestrator   
-[![Featured in Detection Engineering Weekly](https://img.shields.io/badge/Featured%20In-Detection%20Engineering%20Weekly-24292F?style=for-the-badge&logo=readthedocs&logoColor=white)](https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai)
+# CISA KEV Threat Intel Orchestrator 
 
-[![Featured in Tl;dr sec](https://img.shields.io/badge/Featured%20In-tl;dr%20sec-24292F?style=for-the-badge&logo=readthedocs&logoColor=white)](https://tldrsec.com/p/tldr-sec-339)
+## ⭐ Featured In
+
+> Recognized and shared by leading cybersecurity communities for Detection Engineering and Blue Team research.
+
+| Publication | Description |
+|-------------|-------------|
+| 📰 **[TL;DRSec](https://tldrsec.com/p/tldr-sec-339)** | Featured in the Blue Team section for automating CISA KEV intelligence into Sigma detection rules. |
+| 🛡️ **[Detection Engineering Weekly](https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai)** | Featured as an innovative detection engineering workflow for automated Sigma rule generation. |
+
+
 
 Zero-touch pipeline that turns newly weaponized CVEs from the CISA Known Exploited Vulnerabilities (KEV) catalog into production-ready Sigma detection rules, automatically, every week.
 
@@ -43,6 +51,9 @@ CISA KEV Catalog (API)
         │
         └──▶ Email digest (analyst briefing)
 ```
+
+
+
 ## Automation Impact Report
 ![Impact](sample-output/Impact.webp)
 
@@ -70,24 +81,35 @@ This is a working weekly pipeline, not a finished product. Currently on the road
 README.md
 ```
 
-## 📰 Featured In
-
-> **Detection Engineering Weekly #164**
-
-I'm honored that this project was featured in **Detection Engineering Weekly**, highlighting its automated CISA KEV → Sigma detection pipeline.
-
-📖 **Read the feature:**
-https://www.detectionengineering.net/p/dew-164-your-benign-set-stinks-openai
-
->**Tl;dr sec #339**
-
-Excited to see my CISA KEV Threat Intel Orchestrator featured in this week's TLDRSec newsletter.
-
-📖 **Read the feature:**
-https://tldrsec.com/p/tldr-sec-339
 
 
-## Author
+## 🚀 Community Recognition
 
-Manish Rawat | Detection Engineer & SOC Analyst (Independent Research) | Open to Work |
-[LinkedIn](https://linkedin.com/in/manishrawat21) · [GitHub](https://github.com/manishrawat21) · [Medium](https://medium.com/@manishrawat21)
+- ⭐ Featured by **TLDRSec**
+- 🛡️ Featured by **Detection Engineering Weekly**
+- 📖 Published detailed technical write-ups on **Medium** and **Substack**
+- 🔄 Used by detection engineers to explore automated Sigma rule generation workflows
+- 🌍 Repository visitors from GitHub, Google Search, Microsoft Teams, Substack, and leading cybersecurity newsletters
+
+
+
+
+
+## About the Author
+
+Hi, I'm **Manish Rawat**, a Security Analyst passionate about Detection Engineering, Threat Intelligence, and Security Automation.
+
+I enjoy building practical tools that help defenders automate repetitive workflows, improve detection coverage, and accelerate incident response.
+
+🚀 **I'm currently open to opportunities** in Detection Engineering, Threat Intelligence, Security Operations (SOC), and Security Automation. If you'd like to collaborate or discuss potential roles, I'd be happy to connect.
+
+### Connect
+
+- 💼 LinkedIn: https://linkedin.com/in/manishrawat21
+- 🌐 GitHub: https://github.com/manishrawat21
+- ✍️ Medium: https://medium.com/@maxxrawat007@manishrawat21
+- 📰 Substack: https://manishrawat21.substack.com
+
+
+
+
