@@ -1,5 +1,8 @@
 # CISA KEV Threat Intel Orchestrator 
 
+
+[![RelatedRepos](https://img.shields.io/badge/related-repos-yellow)](https://relatedrepos.com/gh/manishrawat21/Cisa-KEV-Threat-Intel-Orchestrator)
+
 ## ⭐ Featured In
 
 > Recognized and shared by leading cybersecurity communities for Detection Engineering and Blue Team research.
@@ -97,7 +100,6 @@ I enjoy building practical tools that help defenders automate repetitive workflo
 - 🌐 GitHub: https://github.com/manishrawat21
 - ✍️ Medium: https://medium.com/@maxxrawat007@manishrawat21
 - 📰 Substack: https://manishrawat21.substack.com
-
 
 
 
